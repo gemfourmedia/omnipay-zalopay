@@ -1,0 +1,50 @@
+{
+    "name": "gemfourmedia/omnipay-zalopay",
+    "type": "library",
+    "description": "ZaloPay gateway for Omnipay.",
+    "keywords": [
+        "gemfourmedia",
+        "zalopay",
+        "payment",
+        "vietnam-payment",
+        "payment-gateway",
+        "vietnam-payment-gateway"
+    ],
+    "homepage": "https://github.com/gemfourmedia/omnipay-zalopay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sang Dang - Gem Four Media",
+            "email": "gemfourmedia@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "omnipay/common": "^3.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "^3.0",
+        "scrutinizer/ocular": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\ZaloPay\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Omnipay\\ZaloPay\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "\"vendor/bin/phpunit\""
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+	}
+}
