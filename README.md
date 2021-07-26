@@ -62,7 +62,7 @@ if ($response->isRedirect()) {
 }
 ```
 
-Read more detail [here](Detail at https://docs.zalopay.vn/v2/general/overview.html#tao-don-hang_thong-tin-don-hang).
+Read more detail [here](https://docs.zalopay.vn/v2/general/overview.html#tao-don-hang_thong-tin-don-hang).
 
 ### Validate ZaloPay redirect:
 
