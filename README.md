@@ -34,7 +34,7 @@ $appTime = floor(microtime(true) * 1000);
 $appTransId = date('ymd').$this->order->order_number.$appTime;
 
 $response =  $gateway->purchase([
-	// Required parameters
+    // Required parameters
     'app_trans_id' => $appTransId,
     'app_time' => $appTime,
     'amount' => $order->amount, //Eg: 1000000
@@ -44,15 +44,15 @@ $response =  $gateway->purchase([
     'bank_code' => '', //''|CC|ATM|Domestic bank code detail at https://docs.zalopay.vn/v2/docs/gateway/api.html#mo-ta_dac-ta-api
     'returnUrl'    => 'https://your-domain.com/callback_listener', // This will assign to callback_url is use by ZaloPay
     
-	// Optional parameters
- 	'order_type' => 'GOODS', // can be:GOODS/TRANSPORTATION/HOTEL/FOOD/TELCARD/BILLING
- 	'title' => 'Order Title',
- 	'device_info' => json_encode([]),
- 	'currency' => 'VND',
- 	'phone' => '0902381299',
- 	'email' => 'gemfourmedia@gmail.com',
- 	'address' => '123 Alexandre De Rhodes',
- 	'sub_app_id' => '',
+    // Optional parameters
+    'order_type' => 'GOODS', // can be:GOODS/TRANSPORTATION/HOTEL/FOOD/TELCARD/BILLING
+    'title' => 'Order Title',
+    'device_info' => json_encode([]),
+    'currency' => 'VND',
+    'phone' => '0902381299',
+    'email' => 'gemfourmedia@gmail.com',
+    'address' => '123 Alexandre De Rhodes',
+    'sub_app_id' => '',
 ])->send();
 
 if ($response->isRedirect()) {
@@ -62,7 +62,7 @@ if ($response->isRedirect()) {
 }
 ```
 
-Read more detail [here](Detail at https://docs.zalopay.vn/v2/general/overview.html#tao-don-hang_thong-tin-don-hang).
+Read more detail [here](https://docs.zalopay.vn/v2/general/overview.html#tao-don-hang_thong-tin-don-hang).
 
 ### Validate ZaloPay redirect:
 
@@ -88,7 +88,7 @@ Read more detail [here](https://docs.zalopay.vn/v2/docs/gateway/api.html#redirec
 ### Check callback (IPN) from ZaloPay
 
 ```php
-$response = $this->getGateway()->notification()->send();
+$response = $gateway->notification()->send();
 
 if ($response->isSuccessful()) {
 	// TODO: Handle data.
