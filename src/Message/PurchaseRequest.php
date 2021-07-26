@@ -6,7 +6,7 @@
  * @license [MIT](https://opensource.org/licenses/MIT)
  */
 
-namespace Omnipay\ZaloPay\Message\Default;
+namespace Omnipay\ZaloPay\Message;
 
 /**
  * @author Sang Dang - Gem Four Media <gemfourmedia@gmail.com>
@@ -48,6 +48,10 @@ namespace Omnipay\ZaloPay\Message\Default;
  */
 class PurchaseRequest extends AbstractSignatureRequest
 {
+    protected $testEndpoint = 'https://sb-openapi.zalopay.vn/v2/create';
+
+    protected $productionEndpoint = 'https://openapi.zalopay.vn/v2/create';
+    
     /**
      * {@inheritdoc}
      */
@@ -59,15 +63,34 @@ class PurchaseRequest extends AbstractSignatureRequest
     public function initialize(array $parameters = [])
     {
         parent::initialize($parameters);
-        
+
         $this->setOrderType($this->getParameter('order_type') ?? 'GOODS');
-        $this->setDeviceInfo($this->getParameter('device_info') ?? json_encode([]));
+        $this->setDeviceInfo($this->getParameter('device_info') ?? "{}");
         $this->setItem($this->getParameter('item') ?? json_encode([]));
         
         $this->setCurrency($this->getParameter('currency') ?? 'VND');
-        $this->setEmbedData($this->getParameter('embed_data') ?? json_encode([]));
-
+        $this->setEmbedData($this->getParameter('embed_data') ?? "{}");
         return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->getParameter('amount');
+    }
+
+    public function setAmount($value)
+    {
+        return $this->setParameter('amount', $value);
+    }
+
+    public function getAppTime(): ?int
+    {
+        return $this->getParameter('app_time');
+    }
+
+    public function setAppTime(?int $data)
+    {
+        return $this->setParameter('app_time', $data);
     }
 
     public function getOrderType(): ?string
@@ -75,7 +98,7 @@ class PurchaseRequest extends AbstractSignatureRequest
         return $this->getParameter('order_type');
     }
 
-    public function setOrderType(?string $data): ?string
+    public function setOrderType(?string $data)
     {
         return $this->setParameter('order_type', $data);
     }
@@ -85,7 +108,7 @@ class PurchaseRequest extends AbstractSignatureRequest
         return $this->getParameter('device_info');
     }
 
-    public function setDeviceInfo(?string $data): ?string
+    public function setDeviceInfo(?string $data)
     {
         return $this->setParameter('device_info', $data);
     }
@@ -95,7 +118,7 @@ class PurchaseRequest extends AbstractSignatureRequest
         return $this->getParameter('item');
     }
 
-    public function setItem(?string $data): ?string
+    public function setItem(?string $data)
     {
         return $this->setParameter('item', $data);
     }
@@ -105,9 +128,9 @@ class PurchaseRequest extends AbstractSignatureRequest
         return $this->getParameter('currency');
     }
 
-    public function setCurrency(?string $data): ?string
+    public function setCurrency($value)
     {
-        return $this->setParameter('currency', $data);
+        return $this->setParameter('currency', $value);
     }
 
     public function getBankCode(): ?string
@@ -115,7 +138,7 @@ class PurchaseRequest extends AbstractSignatureRequest
         return $this->getParameter('bank_code');
     }
 
-    public function setBankCode(?string $data): ?string
+    public function setBankCode(?string $data)
     {
         return $this->setParameter('bank_code', $data);
     }
@@ -162,6 +185,38 @@ class PurchaseRequest extends AbstractSignatureRequest
         return $this->setParameter('app_trans_id', $id);
     }
 
+    /**
+     * @return null|string
+     */
+    public function getCallbackUrl(): ?string
+    {
+        return $this->getReturnUrl();
+    }
+
+    /**
+     * @param  null|string  $url
+     * @return $this
+     */
+    public function setCallbackUrl(?string $url)
+    {
+        return $this->setReturnUrl($url);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getReturnUrl(): ?string
+    {
+        return $this->getParameter('callback_url');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setReturnUrl($value)
+    {
+        return $this->setParameter('callback_url', $value);
+    }
 
     /**
      * Define fields use for generate mac (sinature)

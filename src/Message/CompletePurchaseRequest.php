@@ -6,27 +6,20 @@
  * @license [MIT](https://opensource.org/licenses/MIT)
  */
 
-namespace Omnipay\ZaloPay\Message\Default;
+namespace Omnipay\ZaloPay\Message;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Omnipay\ZaloPay\Message\AbstractIncomingRequest as BaseAbstractIncomingRequest;
 
 /**
+ * @link https://docs.zalopay.vn/v2/docs/gateway/api.html#redirect_du-lieu-truyen-vao-query-string-khi-zalopay-redirect-ve-trang-cua-merchant
  * @author Sang Dang - Gem Four Media <gemfourmedia@gmail.com>
  * @since 1.0.0
  */
-abstract class AbstractIncomingRequest extends BaseAbstractIncomingRequest
+class CompletePurchaseRequest extends AbstractIncomingRequest
 {
-    /**
-     * {@inheritdoc}
-     * @throws \Omnipay\Common\Exception\InvalidResponseException
-     */
-    public function sendData($data): IncomingResponse
-    {
-        return $this->response = new IncomingResponse($this, $data);
-    }
+    protected $responseClass = CompletePurchaseResponse::class;
 
-    /**
+	/**
      * {@inheritdoc}
      */
     protected function getIncomingParameters(): array
@@ -40,13 +33,14 @@ abstract class AbstractIncomingRequest extends BaseAbstractIncomingRequest
         foreach ($params as $param) {
             $data[$param] = $bag->get($param);
         }
-
         return $data;
     }
 
     /**
-     *
-     * @return \Symfony\Component\HttpFoundation\ParameterBag
+     * {@inheritdoc}
      */
-    abstract protected function getIncomingParametersBag(): ParameterBag;
+    protected function getIncomingParametersBag(): ParameterBag
+    {
+        return $this->httpRequest->query;
+    }
 }

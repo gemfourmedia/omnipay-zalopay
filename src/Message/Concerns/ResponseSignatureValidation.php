@@ -19,7 +19,7 @@ use Omnipay\Common\Exception\InvalidResponseException;
 trait ResponseSignatureValidation
 {
     /**
-     * Validate checksum from ZaloPay
+     * Validate mac from ZaloPay IPN|redirect
      *
      * @throws InvalidResponseException
      */
@@ -27,32 +27,49 @@ trait ResponseSignatureValidation
     {
         $data = $this->getData();
 
-        if (! isset($data['checksum'])) {
+        // $dataSignature = Arr::getValue('data', $data, null);
+        // $macSignature = Arr::getValue('mac', $data, null);
+        
+        // Get checksum|mac from ZaloPay reponse
+        $macSignature = Arr::getValue($this->getSignatureChecksum(), $data, '');
+
+        // Get valid field use for generate checksum|mac using for validate
+        $dataSignature = [];
+        foreach ($this->getSignatureParameters() as $parameter) {
+            $dataSignature[$parameter] = Arr::getValue($parameter, $data, null);
+        }
+
+        if (!$macSignature || !$dataSignature) {
             throw new InvalidResponseException(sprintf('Response from ZaloPay is invalid!'));
         }
 
-        $dataSignature = [];
         $signature = new Signature(
             $this->getRequest()->getKey2()
         );
 
-        foreach ($this->getSignatureParameters() as $pos => $parameter) {
-            if (! is_string($pos)) {
-                $pos = $parameter;
-            }
-
-            $dataSignature[$pos] = Arr::getValue($parameter, $data);
-        }
-
-        if (! $signature->validate($dataSignature, $data['checksum'])) {
+        // Zalopay IPN use 'mac'; Zalopay Redirect use 'checksum' => Stupid!!!
+        $generatedSignature = ($this->getSignatureChecksum() === 'checksum') 
+                            ? implode('|', $dataSignature) 
+                            : Arr::getValue('data', $dataSignature, '');
+                            
+        if (! $signature->validate($generatedSignature, $macSignature)) {
             throw new InvalidResponseException(sprintf('Data signature response from ZaloPay is invalid!'));
         }
     }
 
+
     /**
-     * Return parameters use for generate Checksum
+     * Return parameters use for generate signature
      *
      * @return array
      */
     abstract protected function getSignatureParameters(): array;
+
+
+    /**
+     * Return parameters use for validate
+     *
+     * @return array
+     */
+    abstract protected function getSignatureChecksum(): string;
 }

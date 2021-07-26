@@ -6,7 +6,7 @@
  * @license [MIT](https://opensource.org/licenses/MIT)
  */
 
-namespace Omnipay\ZaloPay\Message\Default;
+namespace Omnipay\ZaloPay\Message;
 
 use Omnipay\Common\Message\RedirectResponseInterface;
 
@@ -14,7 +14,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  * @author Sang Dang - Gem Four Media <gemfourmedia@gmail.com>
  * @since 1.0.0
  */
-class PurchaseResponse extends AbstractSignatureResponse implements RedirectResponseInterface
+class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
 
     /**

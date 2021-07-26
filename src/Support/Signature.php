@@ -53,11 +53,9 @@ class Signature
      * @param  array  $data
      * @return string
      */
-    public function generate(array $data): string
+    public function generate(string $data): string
     {
-        $dataSign = implode('|', $data);
-
-        return hash_hmac($this->hashType, $dataSign, $this->hashSecret);
+        return hash_hmac($this->hashType, $data, $this->hashSecret);
     }
 
     /**
@@ -67,10 +65,9 @@ class Signature
      * @param  string  $expect
      * @return bool
      */
-    public function validate(array $data, string $expect): bool
+    public function validate(string $data, string $expect): bool
     {
         $actual = $this->generate($data);
-
         return 0 === strcasecmp($expect, $actual);
     }
 

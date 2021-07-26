@@ -16,12 +16,22 @@ trait RequestEndpoint
 {
 
     /**
-     * Return current endpoint
+     * @var string
+     */
+    protected $productionEndpoint;
+
+    /**
+     * @var string
+     */
+    protected $testEndpoint;
+
+    /**
+     * Return current api endpoint
      *
      * @return string
      */
     protected function getEndpoint(): string
     {
-        return $this->getTestMode() ? 'https://sb-openapi.zalopay.vn/v2' : 'https://openapi.zalopay.vn/v2';
+        return $this->getTestMode() ? $this->testEndpoint : $this->productionEndpoint;
     }
 }

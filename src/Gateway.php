@@ -9,18 +9,18 @@
 namespace Omnipay\ZaloPay;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\ZaloPay\Message\Default\PurchaseRequest;
-use Omnipay\ZaloPay\Message\Default\CompletePurchaseRequest;
-// use Omnipay\ZaloPay\Message\Default\RefundRequest;
-// use Omnipay\ZaloPay\Message\Default\QueryRefundRequest;
-// use Omnipay\ZaloPay\Message\Default\NotificationRequest;
-// use Omnipay\ZaloPay\Message\Default\QueryTransactionRequest;
+use Omnipay\ZaloPay\Message\PurchaseRequest;
+use Omnipay\ZaloPay\Message\CompletePurchaseRequest;
+use Omnipay\ZaloPay\Message\QueryTransactionRequest;
+use Omnipay\ZaloPay\Message\NotificationRequest;
+// use Omnipay\ZaloPay\Message\ZalopayGateway\RefundRequest;
+// use Omnipay\ZaloPay\Message\ZalopayGateway\QueryRefundRequest;
 
 /**
  * @author Sang Dang - Gem Four Media <gemfourmedia@gmail.com>
  * @since 1.0.0
  */
-class DefaultGateway extends AbstractGateway
+class Gateway extends AbstractGateway
 {
     use Concerns\Parameters;
 
@@ -29,11 +29,11 @@ class DefaultGateway extends AbstractGateway
      */
     public function getName(): string
     {
-        return 'ZaloPay - Default';
+        return 'ZaloPay';
     }
 
     /**
-     * {@inheritdoc}
+     * Create order request to ZaloPay Server
      * @return \Omnipay\Common\Message\RequestInterface|PurchaseRequest
      */
     public function purchase(array $options = []): PurchaseRequest
@@ -42,7 +42,8 @@ class DefaultGateway extends AbstractGateway
     }
 
     /**
-     * {@inheritdoc}
+     * Validate order status from ZaloPay Server to complete purchase
+     *
      * @return \Omnipay\Common\Message\RequestInterface|CompletePurchaseRequest
      */
     public function completePurchase(array $options = []): CompletePurchaseRequest
@@ -51,30 +52,30 @@ class DefaultGateway extends AbstractGateway
     }
 
     /**
-     * Tạo request notification gửi từ MoMo.
+     * Handle Zalo Callback (IPN)
      *
      * @param  array  $options
      * @return \Omnipay\Common\Message\RequestInterface|NotificationRequest
      */
-    // public function notification(array $options = []): NotificationRequest
-    public function notification(array $options = [])
+    public function notification(array $options = []): NotificationRequest
     {
-        // return $this->createRequest(NotificationRequest::class, $options);
+        return $this->createRequest(NotificationRequest::class, $options);
     }
 
     /**
-     * Tạo yêu cầu truy vấn thông tin giao dịch đến MoMo.
+     * Create order query request to ZaloPay Server
      *
      * @param  array  $options
      * @return \Omnipay\Common\Message\RequestInterface|QueryTransactionRequest
      */
     public function queryTransaction(array $options = []): QueryTransactionRequest
     {
-        // return $this->createRequest(QueryTransactionRequest::class, $options);
+        return $this->createRequest(QueryTransactionRequest::class, $options);
     }
 
     /**
-     * {@inheritdoc}
+     * Create refund request to ZaloPay Server
+     *
      * @return \Omnipay\Common\Message\RequestInterface|RefundRequest
      */
     public function refund(array $options = [])
@@ -83,7 +84,7 @@ class DefaultGateway extends AbstractGateway
     }
 
     /**
-     * Tạo yêu cầu truy vấn thông tin hoàn tiền đến MoMo.
+     * Create refund query request to ZaloPay Server
      *
      * @return \Omnipay\Common\Message\RequestInterface|QueryRefundRequest
      */

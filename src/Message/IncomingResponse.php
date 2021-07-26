@@ -6,7 +6,7 @@
  * @license [MIT](https://opensource.org/licenses/MIT)
  */
 
-namespace Omnipay\ZaloPay\Message\Default;
+namespace Omnipay\ZaloPay\Message;
 
 /**
  * @author Sang Dang - Gem Four Media <gemfourmedia@gmail.com>
@@ -14,13 +14,28 @@ namespace Omnipay\ZaloPay\Message\Default;
  */
 class IncomingResponse extends AbstractSignatureResponse
 {
+	/**
+     * When construct we already validated mac signature, if passt it'll always success
+     */
+    public function isSuccessful(): bool
+    {
+        return true;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function getSignatureParameters(): array
     {
         return [
-            'appid', 'apptransid', 'pmcid', 'bankcode', 'amount', 'discountamount', 'status'
+            'data'
         ];
+    }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getSignatureChecksum(): string
+    {
+        return 'mac';
     }
 }
