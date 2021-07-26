@@ -5,6 +5,7 @@
  * @copyright (c) Gem Four Media
  * @license [MIT](https://opensource.org/licenses/MIT)
  */
+
 namespace Omnipay\ZaloPay\Message;
 
 use Omnipay\Common\Message\RequestInterface;
@@ -18,7 +19,6 @@ abstract class AbstractSignatureResponse extends AbstractResponse
     use Concerns\ResponseSignatureValidation;
 
     /**
-     * Construct Response object with method validate checksum from Zalo
      *
      * @param  \Omnipay\Common\Message\RequestInterface  $request
      * @param $data
@@ -27,9 +27,9 @@ abstract class AbstractSignatureResponse extends AbstractResponse
     public function __construct(RequestInterface $request, $data)
     {
         parent::__construct($request, $data);
+        // Validate 
+        $this->validateSignature();
 
-        if ('1' === $this->getCode()) {
-            $this->validateSignature();
-        }
     }
+
 }

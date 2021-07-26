@@ -22,11 +22,12 @@ trait RequestSignature
      * @param  string  $hashType
      * @return string
      */
-    protected function generateMac(string $hashType = 'sha256'): string
+    protected function generateSignature(string $hashType = 'sha256'): string
     {
         $data = [];
+
         $signature = new Signature(
-            $this->getRequest()->getKey1(),
+            $this->getKey1(),
             $hashType
         );
 
@@ -34,7 +35,7 @@ trait RequestSignature
             $data[$parameter] = $this->getParameter($parameter);
         }
 
-        return $signature->generate($data);
+        return $signature->generate(implode('|', $data));
     }
 
     /**
@@ -42,5 +43,5 @@ trait RequestSignature
      *
      * @return array
      */
-    abstract protected function getMacParameters(): array;
+    abstract protected function getSignatureParameters(): array;
 }

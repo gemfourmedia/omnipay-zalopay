@@ -20,7 +20,7 @@ trait Parameters
      *
      * @return null|string
      */
-    public function getAppId(): ?string
+    public function getAppId(): ?int
     {
         return $this->getParameter('app_id');
     }
@@ -31,7 +31,7 @@ trait Parameters
      * @param  null|string  $code
      * @return $this
      */
-    public function setAppId(?string $code)
+    public function setAppId(?int $code)
     {
         return $this->setParameter('app_id', $code);
     }

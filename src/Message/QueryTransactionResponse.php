@@ -6,26 +6,15 @@
  * @license [MIT](https://opensource.org/licenses/MIT)
  */
 
-namespace Omnipay\ZaloPay\Message\Default;
-
-use Omnipay\ZaloPay\Message\AbstractSignatureResponse as BaseAbstractSignatureResponse;
+namespace Omnipay\ZaloPay\Message;
 
 /**
+ * @link https://docs.zalopay.vn/v2/general/overview.html#truy-van-trang-thai-thanh-toan-cua-don-hang_dac-ta-api_tham-so-api-tra-ve
  * @author Sang Dang - Gem Four Media <gemfourmedia@gmail.com>
  * @since 1.0.0
  */
-abstract class AbstractSignatureResponse extends BaseAbstractSignatureResponse
+class QueryTransactionResponse extends AbstractResponse
 {
-    /**
-     * Get return code from ZaloPay. 1 is success; 2 is cancelled; 3 is pending;
-     *
-     * @return null|string
-     */
-    public function getCode(): ?string
-    {
-        return $this->data['return_code'] ?? null;
-    }
-
     /**
      * Transaction ID use for reference
      *
@@ -33,7 +22,7 @@ abstract class AbstractSignatureResponse extends BaseAbstractSignatureResponse
      */
     public function getTransactionId(): ?string
     {
-        return $this->data['zp_trans_token'] ?? null;
+        return $this->data['zp_trans_id'] ?? null;
     }
 
     /**
@@ -43,6 +32,6 @@ abstract class AbstractSignatureResponse extends BaseAbstractSignatureResponse
      */
     public function getTransactionReference(): ?string
     {
-        return $this->data['zp_trans_token'] ?? null;
+        return $this->data['zp_trans_id'] ?? null;
     }
 }
