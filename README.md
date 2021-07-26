@@ -88,7 +88,7 @@ Read more detail [here](https://docs.zalopay.vn/v2/docs/gateway/api.html#redirec
 ### Check callback (IPN) from ZaloPay
 
 ```php
-$response = $this->getGateway()->notification()->send();
+$response = $gateway->notification()->send();
 
 if ($response->isSuccessful()) {
 	// TODO: Handle data.
