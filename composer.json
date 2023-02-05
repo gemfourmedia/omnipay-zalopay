@@ -1,7 +1,7 @@
 {
     "name": "gemfourmedia/omnipay-zalopay",
     "type": "library",
-    "description": "ZaloPay gateway for Omnipay.",
+    "description": "ZaloPay gateway driver for Omnipay.",
     "keywords": [
         "gemfourmedia",
         "zalopay",
@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.1|^8.0",
         "omnipay/common": "^3.0"
     },
     "require-dev": {
